@@ -1,3 +1,9 @@
+# Ignorar datasets .csv
+
+data/career_prediction_dataset.csv
+data/Crop_recommendation.csv
+data/crop_yield.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
