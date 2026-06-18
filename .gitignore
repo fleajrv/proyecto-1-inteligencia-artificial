@@ -2,6 +2,7 @@
 
 data/career_prediction_dataset.csv
 data/Crop_recommendation.csv
+data/crop_recommendation.csv
 data/crop_yield.csv
 
 # Byte-compiled / optimized / DLL files
