@@ -1,12 +1,26 @@
 # Predicción de rendimiento de cultivo
 
-## Descrición del probelma
+## Índice de contenidos
+- [1. Descripción del problema](#1-descrición-del-problema)
+
+- [2. Dataset](#2-dataset)
+
+- [3. Modelo Seleccionado](#3-modelo-seleccionado)
+
+    - [3.1. Motivo](#31-motivo)
+
+    - [3.2. Ventajas](#32-ventajas)
+
+    - [3.3. Limitaciones](#33-limitaciones)
+
+
+## 1. Descrición del problema
 
 En los ultimos años, la implementación de tecnología en el sector agrícola ha ido en aumento debido a sus beneficios tanto en el cuidado como en la estimación de producción de los cultivos.
 
 Bajo este contexto, conocer las condiciones ideales para plantar y producir ciertos cultivos se ha vuelto crítico para la toma de decisiones de los agricultores, dado que en un mercado tan competitivo, ser consciente de qué tanto provecho se le puede sacar al suelo en base a sus características es clave para pode obtener la mayor cantidad de ganancias, al elegir conscientemente qué tipo de cultivos es mejor cosechar.
 
-## Dataset
+## 2. Dataset
 En el presente proyecto, se pretende demostrar a través de un modelo predictivo el fruto mas apto para cultivar en un terreno particular según de distintos factores que incluyen la composición química de la tierra y datos históricos del clima.
 El dataset seleccionado (["Crop Recommendation Dataset"](https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset/data)) recopila datos de distintos datasets provenientes de India y cuenta con los siguientes campos:
 
@@ -50,17 +64,17 @@ Sus dimensiones son 2.200 de entradas y 8 columnas, con las cuales se busca pred
 - **jute**: Yute
 - **coffee**: Café
 
-## Modelo Seleccionado
+## 3. Modelo Seleccionado
 Dadas las condiciones del dataset, y que se plantea un modelo de predicción clasificador, se optó por plantear un modelo de regresión logística, haciendo uso previo de un escalador para normalizar los datos y luego obtener los resultados de clasificación, haciendo uso de ElasticNet en el proceso.
 
-### Motivo
+### 3.1. Motivo
 Como se mencionó, dado que se busca la creación de un modelo clasificador, la primera opción a considerar sería la de una regresión logística para empezar a probar por un modelo simple, dada la hipótesis de que varios de los atributos que considera el set de datos poseen una correlación considerable entre sí, tanto positiva como negativa. En la misma página, se opta por el uso de ElasticNet dado que toma lo mejor de los modelos de Lasso y Rdige, y ante un dataset directo como el que se trabaja en el proyecto presente, podría ser de utilidad y de alta eficiencia.
 
-### Ventajas
+### 3.2 Ventajas
 - Costo de cómputo bajo
 - Interpretabilidad fácil del modelo
 - Ideal para la clasificación en base a probabilidades, dados pocos atributos con los que trabajar
 
-## Limitaciones
+### 3.3 Limitaciones
 - Podría generar overfitting
 - Puede quedarse corto si se utiliza una mayor cantidad de clases posibles
