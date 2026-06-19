@@ -64,17 +64,55 @@ Sus dimensiones son 2.200 de entradas y 8 columnas, con las cuales se busca pred
 - **jute**: Yute
 - **coffee**: Café
 
-## 3. Modelo Seleccionado
-Dadas las condiciones del dataset, y que se plantea un modelo de predicción clasificador, se optó por plantear un modelo de regresión logística, haciendo uso previo de un escalador para normalizar los datos y luego obtener los resultados de clasificación, haciendo uso de ElasticNet en el proceso.
+## 3. Modelos Seleccionados
 
-### 3.1. Motivo
-Como se mencionó, dado que se busca la creación de un modelo clasificador, la primera opción a considerar sería la de una regresión logística para empezar a probar por un modelo simple, dada la hipótesis de que varios de los atributos que considera el set de datos poseen una correlación considerable entre sí, tanto positiva como negativa. En la misma página, se opta por el uso de ElasticNet dado que toma lo mejor de los modelos de Lasso y Rdige, y ante un dataset directo como el que se trabaja en el proyecto presente, podría ser de utilidad y de alta eficiencia.
+Para abordar este problema de clasificación multiclase, se propone la evaluación comparativa de tres algoritmos. Para asegurar una búsqueda de hiperparámetros robusta y evitar el sobreajuste espacial, la optimización de los modelos se realizará mediante validación cruzada utilizando GridSearchCV. En esta etapa experimental, se propone evaluar el rendimiento guiándose por tres métricas principales: **accuracy** para observar la exactitud global del modelo, **f1_macro** para asegurar un rendimiento equitativo que no discrimine a los cultivos con características más complejas y el área bajo la curva ROC en un enfoque one-over-rest que resulta ideal para clasificaciones múltiples **roc_auc_ovr**.
 
-### 3.2 Ventajas
+## Regresión logística
+Dadas las condiciones del dataset, y que se plantea un modelo de predicción clasificador, se optó por utilizar un modelo de regresión logística. Para su implementación se diseñará un Pipeline que incluye un escalador para normalizar los datos y se entrenará usando regularización ElasticNet en el proceso.
+
+#### Motivo
+Como se mencionó, dado que se busca la creación de un modelo clasificador, la primera opción a considerar sería la de una regresión logística para empezar a probar por un modelo simple, dada la hipótesis de que varios de los atributos que considera el set de datos poseen una correlación considerable entre sí, tanto positiva como negativa. Se propone el uso de penalización con ElasticNet dado que toma ambos criterios Lasso y Rdige, que para el dataset trabajado podría ser de utilidad y de alta eficiencia.
+
+#### Ventajas
 - Costo de cómputo bajo
 - Interpretabilidad fácil del modelo
 - Ideal para la clasificación en base a probabilidades, dados pocos atributos con los que trabajar
 
-### 3.3 Limitaciones
-- Podría generar overfitting
-- Puede quedarse corto si se utiliza una mayor cantidad de clases posibles
+#### Limitaciones
+- Asume fronteras lineales, por lo que no puede capturar relaciones complejas.
+- Es sensible a outliers / valores atípicos, lo que afectaría a la generalización del modelo.
+
+## K-Nearest Neighbors
+El segundo modelo considerado para este estudio se basa en el algoritmo de K-Nearest Neighbors. Al basarse enteramente en el cálculo matemático de distancias entre las muestras, este modelo también requerirá estar encapsulado en un pipeline con un escalador para asegurar que todas las métricas (desde el pH hasta los milímetros de lluvia) operen bajo la misma escala.
+Se considerarán múltiples números de vecinos (K) y distintas métricas de distancia para encontrar el modelo más eficiente para el dataset.
+
+#### Motivo
+El uso de KNN se justifica por la lógica del dominio agrícola y justamente el objetivo de este estudio: **terrenos que comparten características químicas y climáticas similares tienden a ser aptos para el mismo tipo de cultivo**. KNN agrupa y clasifica basándose exactamente en la "similitud de vecindad", lo que permitirá contrastar los resultados de los otros modelos y capturar agrupaciones de condiciones ideales que no sigan un patrón puramente paramétrico.
+
+#### Ventajas
+- Es muy eficiente para modelar fronteras no lineales / complejas.
+- Interpretabilidad fácil del modelo
+- Al ser un modelo no paramétrico, no hace suposiciones previas sobre la distribución de los datos.
+
+#### Limitaciones
+- Presenta un costo computacional elevado al predecir, debido a la necesidad de calcular distancias para clasificar.
+- La complejidad del entrenamiento depende altamente de los numeros de vecinos ($k_i$) y las métrica de distancias (euclideana, manhattan y minkowski).
+
+## Decision Tree
+
+#### Motivo
+
+#### Ventajas
+
+#### Limitaciones
+
+
+## Random Forest
+
+
+#### Motivo
+
+#### Ventajas
+
+#### Limitaciones
