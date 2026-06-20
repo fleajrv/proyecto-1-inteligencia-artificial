@@ -22,7 +22,7 @@ En los últimos años, la implementación de tecnología en el sector agrícola 
 
 Bajo este contexto, conocer las condiciones ideales para plantar y producir ciertos cultivos se ha vuelto crítico para la toma de decisiones de los agricultores, dado que en un mercado tan competitivo, ser consciente de qué tanto provecho se le puede sacar al suelo en base a sus características es clave para pode obtener la mayor cantidad de ganancias al elegir conscientemente el tipo de cultivos que sea mejor cosechar.
 
-Al mismo tiempo se ofrece tanto evitar elegir cultivos que no podrían dar los mejores resultados según las condiciones de cada caso, como ofrecer posibles sugerencias de cultivos que no se hubiesen considerado antes.
+Al mismo tiempo, ofrecería la posibilidad tanto evitar elegir cultivos que podrían no entregar resultados positivos según las condiciones de cada caso, así como poder sugerir a los agricultores plantar cosechas que originalmente no tenían en mente pero que resultarían beneficiadas dadas las características de sus suelos, sacándoles así aún mas provecho.
 
 ## 2. Dataset
 En el presente proyecto, se pretende demostrar a través de un modelo predictivo el fruto mas apto para cultivar en un terreno particular en base a distintos factores que incluyen la composición química de la tierra y datos históricos del clima.
