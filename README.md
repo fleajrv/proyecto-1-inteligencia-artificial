@@ -20,6 +20,7 @@
     - [Metodología de Trabajo](#metodología-de-trabajo)
     - [Resultados](#resultados)
     - [Conclusiones](#conclusiones)
+    - [Áreas de mejora](#áreas-de-mejora)
 
 
 ## 1. Descripción del problema
@@ -141,7 +142,7 @@ El uso de Random Forest viene para comprobar qué tan alto puede ser el puntaje 
 ```
 proyecto-1-inteligencia-artificial/
 ├── data/                               # Carpeta de datasets a utilizar
-│   └── crop_recommendation.csv         # Dataset usado para el proeycto 
+│   └── crop_recommendation.csv         # Dataset usado para el proyecto 
 ├── environment.yml                     # Archivo de dependencias del entorno de Conda
 ├── proyecto_crop_recomendation.ipynb   # Archivo raíz del proyecto
 └── README.md                           # Documentación
@@ -157,13 +158,15 @@ Previo a la puesta en marcha de los algoritmos, se realizó un análisis explora
 
 ![Figura 1](./images/countplot.png)
 
-Como se mencionó previamente, dado que se está trabajando con propiedades químicas lineales, se optó estudiar varios modelos más que quedarse con un resultado alto, al mismo tiempo intentando observar qué caracertísticas o ideas se podrían destacar en base a los resultados.
+Como se mencionó previamente, dado que se está trabajando con propiedades químicas lineales, se optó estudiar varios modelos más que quedarse con un resultado alto, al mismo tiempo intentando observar qué características o ideas se podrían destacar en base a los resultados.
 
-Tanto para la Regresión Logística como para el K-Nearest Neighbors, se trabajó con un pipeline de escalado previo para estandarizar su mediana y desviación estándar, luego aplicando el algoritmo GridSearch para obtener los mejores parámetros. En el caso del primero, se observó que la mejor penalización fué elasticnet, y 2000 iteraciones totales, mientras que en el segundo se trabajó con la distancia de Manhattan y 3 vecinos.
+Tanto para la Regresión Logística como para el K-Nearest Neighbors, se trabajó con un pipeline de escalado previo para estandarizar su mediana y desviación estándar, luego aplicando el algoritmo GridSearch para obtener los mejores parámetros. En el caso del primero, se observó que la mejor penalización fue ElasticNet, y 2000 iteraciones totales, mientras que en el segundo se trabajó con la distancia de Manhattan y 3 vecinos.
 
 En el caso de los Árboles de Decisión y Random Forest, se puso a prueba primero su funcionamiento bruto como con los mejores parámetros usando el algoritmo previamente mencionado, comprobando su correcto desempeño además con una cross-validation dado a sus alto grado de efectividad en la clasificación, estudiando tanto la media como la desviación estándar obtenidas de la validación cruzada.
 
-Entre los 4 clasificadores, el que entregó mejores resultados fué el Random Forest, donde explorando las combinaciones de valores a adoptar por sus atributos con el algoritmo GridSearchCV, finalmente se trabajó con la Impureza de Gini, y una profundidad de 15 niveles para obtener estos resultados, probándolo posteriormente con una validación cruzada para estudiar un posible overfitting.
+Entre los 4 clasificadores, el que entregó mejores resultados fue el Random Forest, donde explorando las combinaciones de valores a adoptar por sus atributos con el algoritmo GridSearchCV, finalmente se trabajó con la Impureza de Gini, y una profundidad de 15 niveles para obtener estos resultados, probándolo posteriormente con una validación cruzada para estudiar un posible overfitting.
+
+Finalmente, para probar la diferencia visual de desempeño, se realizó un gráfico de curva ROC, más como existen 22 tipos de cultivos a trabajar se prefirió trabajar con un cultivo para una mayor interpretabilidad gráfica, específicamente del las entradas correspondientes al arroz.
 
 ## Resultados
 
@@ -176,13 +179,29 @@ Entre los 4 clasificadores, el que entregó mejores resultados fué el Random Fo
 | Decision Tree | 0.9864 | 0.94618 | Profundidad: 13 <br> Criterio: Gini | 0.99 | 0.99 | 0.99 |
 | `Random Forest` | `0.9932` | `0.99912` | `Profundidad: 15` <br> `Criterio: Impureza de Gini` | `0.99` | `0.99` | `0.99` |
 
-- Pesos de atributos: En el caso del Decision Tree y Random Forest, es posible estudiar de manera intuitiva los pesos que cada modelo le dió a los atributos del dataset, donde los resultados muestran que en ambos casos el mayor peso se encuentra concentrado en 'rainfall' seguido de 'humidity', con la diferencia de que el primer modelo le otorga un peso de 0.351099 a la humedad, mientras que el segundo trabaja con 0.227900, postulando la idea de que puede que una dependencia mayor de la lluvia puede llevar falsamente a obtener peores resultados, mientras que balancear de mejor manera el peso haya sido la clave para clasificar de mejor manera.
+- **Pesos de atributos**: En el caso del Decision Tree y Random Forest, es posible estudiar de manera intuitiva los pesos que cada modelo le dio a los atributos del dataset, donde los resultados muestran que en ambos casos el mayor peso se encuentra concentrado en 'rainfall' seguido de 'humidity', con la diferencia de que el primer modelo le otorga un peso de 0.351099 a la humedad, mientras que el segundo trabaja con 0.227900, proponiendo la idea de que puede que una dependencia mayor de la lluvia puede llevar falsamente a obtener peores resultados, mientras que balancear de mejor manera el peso haya sido la clave para clasificar de mejor manera.
 
-- Área bajo la curva: Como se puede observar en la figura, 
+- **Área bajo la curva**: Como se puede observar en la figura, las curvas que forma cada uno de los modelos resultan similares en pares, esto posiblemente ligado al desempeño con el que trabaja cada una, con KNN y Decision Tree siendo casi lineales, donde se puede plantear que viene por su simplicidad en funcionamiento y menor cantidad de iteraciones de trabajo. Al mismo tiempo, se observa el puntaje casi perfecto que alcanza el Random Forest.
 
 ![Figura 2](./images/roc_rice_curve.png)
 
+
+- **Overfitting**: Tras realizar procesos de validación cruzada, los resultados fueron positivos, presentando para el caso del Random Forest un promedio de 0.99432 y una desviación estándar de 0.00595, implicando que el modelo se presenta lo suficientemente robusto como para entregar un buen desempeño con varias combinaciones.
+
 ## Conclusiones
+
+Como conclusión principal que se puede obtener de los resultados presentados es la gran dependencia que tienen los factores relacionados al suelo donde crecen las cosechas así como las condiciones que las rodean, especialmente destacando la cantidad de agua de las **precipitaciones**, jugando un rol clave en la clasificación de qué cultivo es más adecuado a plantar. Al mismo tiempo, se observa que los mejores resultados se obtuvieron con el modelo **Random Forest**, el cual podría encontrar el origen de su gran desempeño en el trabajo categórico que ofrecen los árboles de decisión, especialmente efectivos dado que las condiciones ideales para el cultivo de ciertas especies es muy marcado, tal como se pudo estudiar en gráficos de dispersión, todo esto potenciado por la gran cantidad de iteraciones que implementa el método ganador. De la misma manera, se logra presenciar que dado que las variables en las que se apoyó el modelo para lograr la predicción tienen sentido y relación química, se obtienen resultados exageradamente altos, y aún contando con la validación cruzada, se siguieron manteniendo como clasificaciones positivas en su mayoría.
+
+## Áreas de mejora
+
+Adicionalmente, se pueden postular ciertas opciones de mejora para un modelo aún más efectivo o que pueda ser más útil:
+- Ampliar el dataset para incluir condiciones más variadas/extremas (sin llegar a ser outliers) de crecimiento de cosechas, para probar si sigue siendo viable el crecimiento de especies en entornos no tan comunes.
+- Considerar la cantidad de agua disponible para el riego, pues si existe además la posibilidad de cubrir con cierta cantidad de agua por día adicional a la natural, ciertas especies podrían también ser viables para la siembra.
+- Mayor catálogo de cultivos, dado que seguirían la misma modalidad de trabajo, su clasificación se podría acomodar a los modelos o hasta mejorarlos.
+
+Adicionalmente, se podrían incluir detalles respecto al rendimiento de los cultivos (incluir uso de fertilizantes, por ejemplo), más sin embargo este proyecto tuvo como principal objetivo el estudio en base a las características naturales del terreno, por lo que incluir acciones manuales o tratamiento del cultivo se saldría del rango de trabajo del mismo.
+
+---
 
 ### Autores a cargo (Nombre de Usuario de GitHub)
 - Alejandro Reyes (fleajrv)
