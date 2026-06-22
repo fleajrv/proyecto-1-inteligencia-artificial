@@ -15,7 +15,11 @@
 
     - [3.4. Random Forest](#random-forest)
 
-- [Conclusiones](#conclusiones)
+- [Resultados y Conclusiones](#conclusiones)
+
+    - [Metodología de Trabajo](#metodología-de-trabajo)
+    - [Resultados](#resultados)
+    - [Conclusiones](#conclusiones)
 
 
 ## 1. Descripción del problema
@@ -133,4 +137,53 @@ El uso de Random Forest viene para comprobar qué tan alto puede ser el puntaje 
 - Mayor complejidad computacional, al utilizar muchas combinaciones.
 - Menor interpretabilidad que con los árboles de decisión.
 
-# Conclusiones
+### Estructura del proyecto
+```
+proyecto-1-inteligencia-artificial/
+├── data/                               # Carpeta de datasets a utilizar
+│   └── crop_recommendation.csv         # Dataset usado para el proeycto 
+├── environment.yml                     # Archivo de dependencias del entorno de Conda
+├── proyecto_crop_recomendation.ipynb   # Archivo raíz del proyecto
+└── README.md                           # Documentación
+```
+
+# Resultados y Conclusiones
+
+Partiendo de la consideración de que el dataset con el que se trabajó corresponde al registro de propiedades químicas, se logra observar en general un alto nivel de precisión respecto a distintas métricas de desempeño, casi logrando clasificaciones perfectas. Esto encuentra su sentido en que las cosechas dependen de gran manera de las condiciones donde crecen, y en caso de que las mismas no sean ideales puede resultar hasta en la muerte de estas durante su crecimiento, esto pudiendo ser estudiado ya sea en la concentración de elementos en el suelo, como las condiciones ambientales como lo pueden ser la lluvia o la humedad del ambiente. Partiendo de esta base, se trabajaron con los 4 modelos mencionados en la presentación, obteniendo distintos desempeños.
+
+## Metodología de trabajo
+
+Previo a la puesta en marcha de los algoritmos, se realizó un análisis exploratorio de los datos, observando que el dataset posee un gran nivel de cuidado, sin presentar valores faltantes ni outliers, esto tras observar tanto un countplot como estudiar las entradas de cada columna y fila, por lo que no hicieron falta acciones de limpieza adicionales de los datos. Al mismo tiempo, dado que el dataset original cuenta con 8 columnas con una diferenciación notoria, no se encontró necesario el uso de un PCA para reducir las mismas, puesto que no presentaron un obstáculo a nivel de cómputo ni dimensiones demasiado altas como para presentar un posible problema de dimensionalidad.
+
+![Figura 1](./images/countplot.png)
+
+Como se mencionó previamente, dado que se está trabajando con propiedades químicas lineales, se optó estudiar varios modelos más que quedarse con un resultado alto, al mismo tiempo intentando observar qué caracertísticas o ideas se podrían destacar en base a los resultados.
+
+Tanto para la Regresión Logística como para el K-Nearest Neighbors, se trabajó con un pipeline de escalado previo para estandarizar su mediana y desviación estándar, luego aplicando el algoritmo GridSearch para obtener los mejores parámetros. En el caso del primero, se observó que la mejor penalización fué elasticnet, y 2000 iteraciones totales, mientras que en el segundo se trabajó con la distancia de Manhattan y 3 vecinos.
+
+En el caso de los Árboles de Decisión y Random Forest, se puso a prueba primero su funcionamiento bruto como con los mejores parámetros usando el algoritmo previamente mencionado, comprobando su correcto desempeño además con una cross-validation dado a sus alto grado de efectividad en la clasificación, estudiando tanto la media como la desviación estándar obtenidas de la validación cruzada.
+
+Entre los 4 clasificadores, el que entregó mejores resultados fué el Random Forest, donde explorando las combinaciones de valores a adoptar por sus atributos con el algoritmo GridSearchCV, finalmente se trabajó con la Impureza de Gini, y una profundidad de 15 niveles para obtener estos resultados, probándolo posteriormente con una validación cruzada para estudiar un posible overfitting.
+
+## Resultados
+
+### Resumen
+
+| **Modelo** | **Accuracy** | **Área bajo curva ROC** | **Atributos Adicionales** | **Precision** | **Recall** | **F1-score** |
+| --- | --- | --- | --- | --- | --- | --- |
+| Regresión Logística | 0.975 | 0.99775 | Penalización: ElasticNet <br> Iteraciones: 2000 | 0.98 | 0.97 | 0.97 |
+| KNN | 0.975 | 0.94599 | N_neighbors: 3 <br> Distancia: Manhattan | 0.98 | 0.97 | 0.98 |
+| Decision Tree | 0.9864 | 0.94618 | Profundidad: 13 <br> Criterio: Gini | 0.99 | 0.99 | 0.99 |
+| `Random Forest` | `0.9932` | `0.99912` | `Profundidad: 15` <br> `Criterio: Impureza de Gini` | `0.99` | `0.99` | `0.99` |
+
+- Pesos de atributos: En el caso del Decision Tree y Random Forest, es posible estudiar de manera intuitiva los pesos que cada modelo le dió a los atributos del dataset, donde los resultados muestran que en ambos casos el mayor peso se encuentra concentrado en 'rainfall' seguido de 'humidity', con la diferencia de que el primer modelo le otorga un peso de 0.351099 a la humedad, mientras que el segundo trabaja con 0.227900, postulando la idea de que puede que una dependencia mayor de la lluvia puede llevar falsamente a obtener peores resultados, mientras que balancear de mejor manera el peso haya sido la clave para clasificar de mejor manera.
+
+- Área bajo la curva: Como se puede observar en la figura, 
+
+![Figura 2](./images/roc_rice_curve.png)
+
+## Conclusiones
+
+### Autores a cargo (Nombre de Usuario de GitHub)
+- Alejandro Reyes (fleajrv)
+- Felipe Sánchez (Felipe-SSC)
