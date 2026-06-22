@@ -15,6 +15,8 @@
 
     - [3.4. Random Forest](#random-forest)
 
+- [Conclusiones](#conclusiones)
+
 
 ## 1. Descripción del problema
 
@@ -130,3 +132,5 @@ El uso de Random Forest viene para comprobar qué tan alto puede ser el puntaje 
 #### - Limitaciones
 - Mayor complejidad computacional, al utilizar muchas combinaciones.
 - Menor interpretabilidad que con los árboles de decisión.
+
+# Conclusiones
