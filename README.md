@@ -15,7 +15,7 @@
 
     - [3.4. Random Forest](#random-forest)
 
-- [Resultados y Conclusiones](#conclusiones)
+- [Resultados y Conclusiones](#resultados-y-conclusiones)
 
     - [Metodología de Trabajo](#metodología-de-trabajo)
     - [Resultados](#resultados)
@@ -148,13 +148,11 @@ proyecto-1-inteligencia-artificial/
 └── README.md                           # Documentación
 ```
 
-# Resultados y Conclusiones
 
+# Metodología de trabajo
 Partiendo de la consideración de que el dataset con el que se trabajó corresponde al registro de propiedades químicas, se logra observar en general un alto nivel de precisión respecto a distintas métricas de desempeño, casi logrando clasificaciones perfectas. Esto encuentra su sentido en que las cosechas dependen de gran manera de las condiciones donde crecen, y en caso de que las mismas no sean ideales puede resultar hasta en la muerte de estas durante su crecimiento, esto pudiendo ser estudiado ya sea en la concentración de elementos en el suelo, como las condiciones ambientales como lo pueden ser la lluvia o la humedad del ambiente. Partiendo de esta base, se trabajaron con los 4 modelos mencionados en la presentación, obteniendo distintos desempeños.
 
-## Metodología de trabajo
-
-Previo a la puesta en marcha de los algoritmos, se realizó un análisis exploratorio de los datos, observando que el dataset posee un gran nivel de cuidado, sin presentar valores faltantes ni outliers, esto tras observar tanto un countplot como estudiar las entradas de cada columna y fila, por lo que no hicieron falta acciones de limpieza adicionales de los datos. Al mismo tiempo, dado que el dataset original cuenta con 8 columnas con una diferenciación notoria, no se encontró necesario el uso de un PCA para reducir las mismas, puesto que no presentaron un obstáculo a nivel de cómputo ni dimensiones demasiado altas como para presentar un posible problema de dimensionalidad.
+Previo a la puesta en marcha de los algoritmos, se realizó un análisis exploratorio de los datos (EDA), observando que el dataset posee un gran nivel de cuidado, sin presentar valores faltantes ni outliers, esto tras observar tanto un countplot como estudiar las entradas de cada columna y fila, por lo que no hicieron falta acciones de limpieza adicionales de los datos. Al mismo tiempo, dado que el dataset original cuenta con 8 columnas con una diferenciación notoria, no se encontró necesario el uso de un PCA para reducir las mismas, puesto que no presentaron un obstáculo a nivel de cómputo ni dimensiones demasiado altas como para presentar un posible problema de dimensionalidad.
 
 ![Figura 1](./images/countplot.png)
 
@@ -164,9 +162,12 @@ Tanto para la Regresión Logística como para el K-Nearest Neighbors, se trabaj�
 
 En el caso de los Árboles de Decisión y Random Forest, se puso a prueba primero su funcionamiento bruto como con los mejores parámetros usando el algoritmo previamente mencionado, comprobando su correcto desempeño además con una cross-validation dado a sus alto grado de efectividad en la clasificación, estudiando tanto la media como la desviación estándar obtenidas de la validación cruzada.
 
-Entre los 4 clasificadores, el que entregó mejores resultados fue el Random Forest, donde explorando las combinaciones de valores a adoptar por sus atributos con el algoritmo GridSearchCV, finalmente se trabajó con la Impureza de Gini, y una profundidad de 15 niveles para obtener estos resultados, probándolo posteriormente con una validación cruzada para estudiar un posible overfitting.
+Entre los 4 clasificadores, el que entregó mejores resultados fue Random Forest, donde explorando las combinaciones de valores a adoptar por sus atributos con el algoritmo GridSearchCV, finalmente se trabajó con la Impureza de Gini, y una profundidad de 15 niveles para obtener estos resultados, probándolo posteriormente con una validación cruzada para estudiar un posible overfitting.
 
-Finalmente, para probar la diferencia visual de desempeño, se realizó un gráfico de curva ROC, más como existen 22 tipos de cultivos a trabajar se prefirió trabajar con un cultivo para una mayor interpretabilidad gráfica, específicamente del las entradas correspondientes al arroz.
+Para probar la diferencia visual de desempeño, se realizó un gráfico de curva ROC, más como existen 22 tipos de cultivos a trabajar se prefirió trabajar con un cultivo para una mayor interpretabilidad gráfica, específicamente del las entradas correspondientes al arroz.
+
+
+# Resultados y Conclusiones
 
 ## Resultados
 
